@@ -30,7 +30,6 @@ stackTop:
 .global _start
 .type _start, @function
 
-
 _start:
 
   # assign current stack pointer location to stackTop

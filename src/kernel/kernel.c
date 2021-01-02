@@ -1,37 +1,30 @@
 #include "kernel.h"
 
-// VGA DRIVER imports
-
-extern uint16* D_VGA_buffer;
+// VGA driver imports
 
 extern uint16 
 D_VGA_entry(unsigned char ch, uint8 fore_color, uint8 back_color);
 
 extern void 
-D_VGA_init(uint8 fore_color, uint8 back_color);
+D_VGA_fill(uint8 fore_color, uint8 back_color);
+
+extern void 
+D_VGA_print_str(uint8 line, uint8 column, char* str, uint8 fore_color, uint8 back_color);
 
 void
 K_main()
 {
 	//first init VGA with fore & back colors
-	D_VGA_init(D_VGA_WHITE, D_VGA_BLACK);
+	D_VGA_fill(D_VGA_BLUE, D_VGA_BLUE);
 
-	//assign each ASCII character to video buffer
-	//you can change colors here
-	D_VGA_buffer[0] 	= D_VGA_entry('H', D_VGA_WHITE, D_VGA_BLACK);
-	D_VGA_buffer[1] 	= D_VGA_entry('e', D_VGA_WHITE, D_VGA_BLACK);
-	D_VGA_buffer[2] 	= D_VGA_entry('l', D_VGA_WHITE, D_VGA_BLACK);
-	D_VGA_buffer[3] 	= D_VGA_entry('l', D_VGA_WHITE, D_VGA_BLACK);
-	D_VGA_buffer[4] 	= D_VGA_entry('o', D_VGA_WHITE, D_VGA_BLACK);
-	D_VGA_buffer[5] 	= D_VGA_entry(' ', D_VGA_WHITE, D_VGA_BLACK);
-	D_VGA_buffer[6] 	= D_VGA_entry('W', D_VGA_WHITE, D_VGA_BLACK);
-	D_VGA_buffer[7] 	= D_VGA_entry('o', D_VGA_WHITE, D_VGA_BLACK);
-	D_VGA_buffer[8] 	= D_VGA_entry('r', D_VGA_WHITE, D_VGA_BLACK);
-	D_VGA_buffer[9] 	= D_VGA_entry('l', D_VGA_WHITE, D_VGA_BLACK);
-	D_VGA_buffer[10]	= D_VGA_entry('d', D_VGA_WHITE, D_VGA_BLACK);
-
-	D_VGA_init(D_VGA_WHITE, D_VGA_BLACK);
-
-	// D_VGA_clear_buffer(D_VGA_buffer, D_VGA_BLACK, D_VGA_BLACK);
+	D_VGA_print_str(24, 77, "loading kernel", D_VGA_YELLOW, D_VGA_BLUE);
 }
 
+void
+K_panic(int code, char * msg)
+{
+	D_VGA_fill(D_VGA_BLUE, D_VGA_BLUE);
+	D_VGA_print_str(0, 0, "KERNEL PANIC:", D_VGA_YELLOW, D_VGA_BLUE);
+	D_VGA_print_str(1, 0, msg, D_VGA_YELLOW, D_VGA_BLUE);
+	while(1);
+}

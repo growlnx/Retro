@@ -1,7 +1,7 @@
-#ifndef __KERNEL_H
-#define __KERNEL_H
+#ifndef __K_H
+#define __K_H
 
 #include "types.h"
 #include "driver/vga.h"
 
-#endif // __KERNEL_H
+#endif // __K_H
