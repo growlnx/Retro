@@ -1,9 +1,9 @@
-AC = as
-AFLAGS = --32
-OBJS = $(wildcard *.S)
+AC = nasm
+AFLAGS = -f elf32
+OBJS = $(wildcard *.asm)
 
 all:
-	$(AS) -o boot.o $(AFLAGS) $(OBJS)
+	$(AC) -o boot.o $(AFLAGS) $(OBJS)
 
 clean:
 	- rm *.o -f
