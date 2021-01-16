@@ -1,10 +1,9 @@
-%ifndef __IDT
-%define __IDT
+%ifndef IDT
+%define IDT
 
 ; imports
 extern idtr
 extern K_IDT_irq_handler
-
 
 ; exports
 global K_IDT_update
@@ -69,4 +68,4 @@ section .text
 	        sti
 	        iret            ; Pops 5 things at once: CS, EIP, EFLAGS, SS and ESP!
 
-%endif ; __IDT
+%endif ; IDT

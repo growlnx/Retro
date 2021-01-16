@@ -3,10 +3,10 @@ GRUB_VERSION =
 
 all: $(SUBDIRS)
 	$(info ************ BUILDING ISO FILE ************)
-	# verifica se o kernel é compatível com multiboot
+	# checking if kernel is multiboot compatible
 	grub$(GRUB_VERSION)-file --is-x86-multiboot src/kernel.bin
 
-	# cria uma imagem iso
+	# creating ISO image
 	mkdir -p iso/boot/grub
 	cp src/kernel.bin iso/boot/kernel.bin
 	cp src/bootloader/grub.cfg iso/boot/grub/grub.cfg

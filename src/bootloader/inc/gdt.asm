@@ -1,5 +1,5 @@
-%ifndef IDT
-%define IDT
+%ifndef GDT
+%define GDT
 
 ; imports
 extern gdtr
@@ -11,7 +11,7 @@ section .text
 
 	K_GDT_update:
 		cli ; disable interrupts
-		lgdt [gdtr]	; load IDT pointer into idtr register
+		lgdt [gdtr]	; load GDT pointer into gdtr register
 		
 		jmp 0x08:reload_segment_regs ; update cs and ip registers
 		
@@ -24,4 +24,4 @@ section .text
 			mov ss, ax
 		ret		
 
-%endif
+%endif ; GDT

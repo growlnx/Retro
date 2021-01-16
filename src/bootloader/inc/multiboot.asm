@@ -1,5 +1,5 @@
-%ifndef __MULTIBOOT
-%define __MULTIBOOT
+%ifndef MULTIBOOT
+%define MULTIBOOT
 
 ; constants
 MBALIGN  equ  1 << 0            ; align loaded modules on page boundaries
@@ -14,4 +14,4 @@ section .multiboot
 	dd FLAGS
 	dd CHECKSUM
 
-%endif ; __MULTIBOOT
+%endif ; MULTIBOOT
