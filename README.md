@@ -7,7 +7,7 @@ Studies about retro OS programming.
 > Note: if your grub is version 2, use the arg GRUB_VERSION=2 in make.
 
 ```{sh}
-$ make all GRUB_VERSION=2 && ./run.sh
+$ make all && ./run.sh
 ```
 
 
