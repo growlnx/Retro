@@ -7,19 +7,15 @@ extern K_main
 global _start
 
 %include "inc/multiboot.asm"
-
-; create a stack with 1024 bytes
-stack_bottom:
-	times 1024 db 0x00  
-stack_top:
+%include "inc/gdt.asm"
+%include "inc/idt.asm"
+%include "inc/stack.asm"
 
 section .text
 
 	_start:
 		; point to stack
-		mov esp, stack_top
+		mov esp, STACK_TOP
 		; bootstrap the kernel
 		call K_main
-		cli
 
-		jmp $

@@ -1,3 +1,6 @@
+%ifndef __MULTIBOOT
+%define __MULTIBOOT
+
 ; constants
 MBALIGN  equ  1 << 0            ; align loaded modules on page boundaries
 MEMINFO  equ  1 << 1            ; provide memory map
@@ -10,3 +13,5 @@ section .multiboot
 	dd MAGIC
 	dd FLAGS
 	dd CHECKSUM
+
+%endif ; __MULTIBOOT

@@ -1,5 +1,5 @@
 CC		:= gcc
-CFLAGS	:= -c -std=gnu99 -ffreestanding -O0 -m32
+CFLAGS	:= -c -std=gnu99 -ffreestanding -O0 -m32 -g
 OBJECTS	:= $(patsubst %.c,%.o,$(wildcard *.c))
 SUBDIRS := $(wildcard */)
 
