@@ -1,6 +1,6 @@
 AC = nasm
 AFLAGS = -f elf32
-OBJS = $(wildcard *.asm)
+OBJS = boot.asm
 
 all:
 	$(AC) -o boot.o $(AFLAGS) $(OBJS)

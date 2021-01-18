@@ -6,10 +6,10 @@ extern K_main
 ; exports
 global _start
 
-%include "inc/multiboot.asm"
-%include "inc/gdt.asm"
-%include "inc/idt.asm"
-%include "inc/stack.asm"
+%include "multiboot.asm"
+%include "gdt.asm"
+%include "idt.asm"
+%include "stack.asm"
 
 section .text
 

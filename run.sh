@@ -8,12 +8,4 @@ if [ ! -f kernel.iso ]; then
 	exit 1;
 fi
 
-EMULATOR=qemu
-
-if [ ! -z "$1" ]; then
-	EMULATOR=$1;
-fi
-
-if [ "$EMULATOR" = "qemu" ]; then
-	qemu-system-x86_64 -cdrom kernel.iso
-fi
+gdb -tui -x debug -nx

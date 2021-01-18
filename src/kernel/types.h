@@ -8,6 +8,14 @@ typedef unsigned int uint32;
 typedef unsigned long int uint64;
 typedef char* string;
 
+struct regs
+{
+  uint32 ds;
+  uint32 edi, esi, ebp, esp, ebx, edx, ecx, eax;
+  uint32 interrupt, err_code;
+  uint32 eip, cs, eflags, useresp, ss;
+};
+
 #define NULL 0
 
 #define TRUE 1

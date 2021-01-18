@@ -9,6 +9,7 @@ clean:
 
 $(OBJECTS): %.o : %.c
 	$(info ************ BUILDING DRIVERS ************)
+	@echo "DRIVERS ---> $(OBJECTS)"
 	$(CC) -o $@ $<  $(CFLAGS)
 
 .PHONY: all clean $(OBJECTS)

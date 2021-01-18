@@ -1,0 +1,5 @@
+file src/kernel.bin
+layout regs
+target remote | qemu-system-i386  -gdb stdio -cdrom kernel.iso
+break K_main
+break D_PS2_KB_handler

@@ -1,23 +1,10 @@
 #include "idt.h"
 
-// import from IO
-extern void
-K_IO_outb();
-
-// import from Kernel
-extern void*
-K_memset(void* dest, int val, int len);
-
-extern void
-K_panic(int code, string msg);
+struct idt_descriptor idtr;
 
 // import from ASM
 extern void
 K_IDT_update();
-
-// import from Keyboard
-void
-D_PS2_KB_handler(struct regs r);
 
 extern void
 K_IDT_irq0();
@@ -140,7 +127,7 @@ extern void
 K_IDT_irq39();
 
 extern void
-ir140();
+K_IDT_irq40();
 
 extern void
 K_IDT_irq41();
@@ -166,24 +153,6 @@ K_IDT_irq47();
 extern void
 K_IDT_irq80();
 
-static struct idt_entry
-{
-  unsigned short base_low;
-  unsigned short selector;
-  unsigned char null;
-  unsigned char flags;
-  unsigned short base_high;
-} __attribute__((packed));
-
-static struct idt_descriptor
-{
-  unsigned short limit;
-  unsigned int base;
-} __attribute__((packed));
-
-struct idt_entry idt[256];
-struct idt_descriptor idtr;
-
 static void
 idt_set_gate(unsigned char i,
              unsigned long base,
@@ -195,12 +164,6 @@ idt_set_gate(unsigned char i,
   idt[i].selector = selector;
   idt[i].null = 0;
   idt[i].flags = flags;
-}
-
-void
-keyboard_handler()
-{
-  K_panic(0, "Keyboard INTERRUPT");
 }
 
 void
@@ -225,6 +188,7 @@ K_IDT_install()
   K_IO_outb(PIC_MASTER_DATA, 0x0);
   K_IO_outb(PIC_SLAVE_DATA, 0x0);
 
+  // Processor exceptions
   idt_set_gate(0, (unsigned)K_IDT_irq0, 0x08, 0x8E);
   idt_set_gate(1, (unsigned)K_IDT_irq1, 0x08, 0x8E);
   idt_set_gate(2, (unsigned)K_IDT_irq2, 0x08, 0x8E);
@@ -257,22 +221,24 @@ K_IDT_install()
   idt_set_gate(29, (unsigned)K_IDT_irq29, 0x08, 0x8E);
   idt_set_gate(30, (unsigned)K_IDT_irq30, 0x08, 0x8E);
   idt_set_gate(31, (unsigned)K_IDT_irq31, 0x08, 0x8E);
-  idt_set_gate(32, (unsigned)K_IDT_irq0, 0x08, 0x8E);
-  idt_set_gate(33, (unsigned)K_IDT_irq1, 0x08, 0x8E);
-  idt_set_gate(34, (unsigned)K_IDT_irq2, 0x08, 0x8E);
-  idt_set_gate(35, (unsigned)K_IDT_irq3, 0x08, 0x8E);
-  idt_set_gate(36, (unsigned)K_IDT_irq4, 0x08, 0x8E);
-  idt_set_gate(37, (unsigned)K_IDT_irq5, 0x08, 0x8E);
-  idt_set_gate(38, (unsigned)K_IDT_irq6, 0x08, 0x8E);
-  idt_set_gate(39, (unsigned)K_IDT_irq7, 0x08, 0x8E);
-  idt_set_gate(40, (unsigned)K_IDT_irq8, 0x08, 0x8E);
-  idt_set_gate(41, (unsigned)K_IDT_irq9, 0x08, 0x8E);
-  idt_set_gate(42, (unsigned)K_IDT_irq10, 0x08, 0x8E);
-  idt_set_gate(43, (unsigned)K_IDT_irq11, 0x08, 0x8E);
-  idt_set_gate(44, (unsigned)K_IDT_irq12, 0x08, 0x8E);
-  idt_set_gate(45, (unsigned)K_IDT_irq13, 0x08, 0x8E);
-  idt_set_gate(46, (unsigned)K_IDT_irq14, 0x08, 0x8E);
-  idt_set_gate(47, (unsigned)K_IDT_irq15, 0x08, 0x8E);
+
+  // Kernel Custom IRQ's
+  idt_set_gate(32, (unsigned)K_IDT_irq32, 0x08, 0x8E);
+  idt_set_gate(33, (unsigned)K_IDT_irq33, 0x08, 0x8E);
+  idt_set_gate(34, (unsigned)K_IDT_irq34, 0x08, 0x8E);
+  idt_set_gate(35, (unsigned)K_IDT_irq35, 0x08, 0x8E);
+  idt_set_gate(36, (unsigned)K_IDT_irq36, 0x08, 0x8E);
+  idt_set_gate(37, (unsigned)K_IDT_irq37, 0x08, 0x8E);
+  idt_set_gate(38, (unsigned)K_IDT_irq38, 0x08, 0x8E);
+  idt_set_gate(39, (unsigned)K_IDT_irq39, 0x08, 0x8E);
+  idt_set_gate(40, (unsigned)K_IDT_irq40, 0x08, 0x8E);
+  idt_set_gate(41, (unsigned)K_IDT_irq41, 0x08, 0x8E);
+  idt_set_gate(42, (unsigned)K_IDT_irq42, 0x08, 0x8E);
+  idt_set_gate(43, (unsigned)K_IDT_irq43, 0x08, 0x8E);
+  idt_set_gate(44, (unsigned)K_IDT_irq44, 0x08, 0x8E);
+  idt_set_gate(45, (unsigned)K_IDT_irq45, 0x08, 0x8E);
+  idt_set_gate(46, (unsigned)K_IDT_irq46, 0x08, 0x8E);
+  idt_set_gate(47, (unsigned)K_IDT_irq47, 0x08, 0x8E);
   idt_set_gate(0x80, (unsigned)K_IDT_irq80, 0x08, 0x8E | 0x60);
 
   K_IDT_update();
@@ -287,10 +253,150 @@ K_IDT_irq_handler(struct regs r)
       break;
 
     case 1:
+      break;
+
+    case 2:
+      break;
+
+    case 3:
+      break;
+
+    case 4:
+      break;
+
+    case 5:
+      break;
+
+    case 6:
+      break;
+
+    case 7:
+      break;
+
+    case 8:
+      break;
+
+    case 9:
+      break;
+
+    case 10:
+      break;
+
+    case 11:
+      break;
+
+    case 12:
+      break;
+
+    case 13:
+      break;
+
+    case 14:
+      break;
+
+    case 15:
+      break;
+
+    case 16:
+      break;
+
+    case 17:
+      break;
+
+    case 18:
+      break;
+
+    case 19:
+      break;
+
+    case 20:
+      break;
+
+    case 21:
+      break;
+
+    case 22:
+      break;
+
+    case 23:
+      break;
+
+    case 24:
+      break;
+
+    case 25:
+      break;
+
+    case 26:
+      break;
+
+    case 27:
+      break;
+
+    case 28:
+      break;
+
+    case 29:
+      break;
+
+    case 30:
+      break;
+
+    case 31:
+      break;
+
+    case 32:
+      break;
+
+    case 33:
       D_PS2_KB_handler(r);
       break;
 
+    case 34:
+      break;
+
+    case 35:
+      break;
+
+    case 36:
+      break;
+
+    case 37:
+      break;
+
+    case 38:
+      break;
+
+    case 39:
+      break;
+
+    case 40:
+      break;
+
+    case 41:
+      break;
+
+    case 42:
+      break;
+
+    case 43:
+      break;
+
+    case 44:
+      break;
+
+    case 45:
+      break;
+
+    case 46:
+      break;
+
+    case 47:
+      break;
+
     default:
+      // wtf
+      K_panic(1, "Unknow Interuption");
       break;
   }
 

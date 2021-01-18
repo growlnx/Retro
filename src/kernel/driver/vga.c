@@ -2,12 +2,15 @@
 
 #define XY_TO_X(x, y) (x * 80) + y
 
-// kernel imports
-extern void
-K_panic(int code, char* msg);
-
 // point vga_buffer pointer to VGA_ADDRESS
 static uint16* D_VGA_buffer = (uint16*)D_VGA_ADDRESS;
+
+// kernel imports
+// extern void
+// K_panic(int code, char* msg);
+
+// point vga_buffer pointer to VGA_ADDRESS
+// static uint16* D_VGA_buffer = (uint16*)D_VGA_ADDRESS;
 
 static uint16
 D_VGA_entry(unsigned char ch, uint8 fore_color, uint8 back_color)
