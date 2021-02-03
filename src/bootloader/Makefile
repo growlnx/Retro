@@ -1,9 +1,14 @@
 AC = nasm
 AFLAGS = -f elf32
-OBJS = boot.asm
+OBJECTS = boot.o
 
-all:
-	$(AC) -o boot.o $(AFLAGS) $(OBJS)
+all: $(OBJECTS)
+
+$(OBJECTS): %.o : %.asm
+	$(info ************ BUILDING BOOTLOADER ************)
+	$(AC) -o $@ $< $(AFLAGS)
 
 clean:
 	- rm *.o -f
+
+.PHONY: all clean $(OBJECTS)

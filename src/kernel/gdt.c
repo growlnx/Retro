@@ -1,6 +1,8 @@
 #include "gdt.h"
 
-static struct gdt_entry gdt[3];
+#define GDT_SIZE 3
+
+static struct gdt_entry gdt[GDT_SIZE];
 struct gdt_descriptor gdtr;
 
 extern void

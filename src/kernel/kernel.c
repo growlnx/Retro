@@ -1,4 +1,6 @@
 #include "kernel.h"
+#include "driver/vga.h"
+#include "types.h"
 
 // gdt imports
 extern void

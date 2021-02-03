@@ -3,7 +3,7 @@
 
 #include "types.h"
 
-static struct gdt_entry
+struct gdt_entry
 {
   unsigned short limit_low;
   unsigned short base_low;
@@ -13,7 +13,7 @@ static struct gdt_entry
   unsigned char base_high;
 } __attribute__((packed));
 
-static struct gdt_descriptor
+struct gdt_descriptor
 {
   unsigned short limit;
   unsigned int base;
@@ -21,14 +21,7 @@ static struct gdt_descriptor
 
 extern struct gdt_descriptor gdtr;
 
-static void
-K_GDT_set_gate(int i,
-               unsigned long base,
-               unsigned long limit,
-               unsigned char access,
-               unsigned char granularity);
-
-void
+extern void
 K_GDT_install();
 
 #endif // K_GDT_H

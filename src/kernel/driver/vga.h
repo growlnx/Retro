@@ -1,18 +1,7 @@
 #ifndef D_VGA_H
 #define D_VGA_H
 
-#include "../kernel.h"
 #include "../types.h"
-
-// the VGA MMIO
-#define D_VGA_ADDRESS 0xb8000
-
-// vga text mode dimessions
-#define D_VGA_LINE_LIM 25
-#define D_VGA_COLUMN_LIM 80
-
-// its a sequential array of 80*25
-#define D_VGA_BUFFER_LIM D_VGA_LINE_LIM* D_VGA_COLUMN_LIM
 
 enum D_VGA_color
 {
@@ -33,9 +22,6 @@ enum D_VGA_color
   D_VGA_YELLOW,
   D_VGA_WHITE,
 };
-
-static uint16
-D_VGA_entry(unsigned char ch, uint8 fore_color, uint8 back_color);
 
 void
 D_VGA_print_chr(uint8 line,

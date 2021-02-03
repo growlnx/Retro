@@ -1,16 +1,15 @@
 #ifndef K_H
 #define K_H
 
-#include "driver/vga.h"
 #include "types.h"
 
-void
+extern void
 K_halt();
 
-void*
+extern void*
 K_memset(void* dest, int val, int len);
 
-void
+extern void
 K_panic(int code, string msg);
 
 #endif // K_H

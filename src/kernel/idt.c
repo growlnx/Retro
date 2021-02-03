@@ -1,5 +1,12 @@
 #include "idt.h"
 
+#define IDT_SIZE 256
+#define PIC_MASTER_CMD 0x0020
+#define PIC_MASTER_DATA PIC_MASTER_CMD + 1
+#define PIC_SLAVE_CMD 0x00A0
+#define PIC_SLAVE_DATA PIC_SLAVE_CMD + 1
+
+struct idt_entry idt[IDT_SIZE];
 struct idt_descriptor idtr;
 
 // import from ASM
@@ -170,9 +177,9 @@ void
 K_IDT_install()
 {
 
-  idtr.limit = (sizeof(struct idt_entry) * 256) - 1;
+  idtr.limit = (sizeof(struct idt_entry) * IDT_SIZE) - 1;
   idtr.base = (unsigned)&idt;
-  K_memset((void*)&idt, 0, sizeof(struct idt_entry) * 256);
+  K_memset((void*)&idt, 0, sizeof(struct idt_entry) * IDT_SIZE);
 
   // remmaping 8259 PIC
   K_IO_outb(PIC_MASTER_CMD, 0x11);

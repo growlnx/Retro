@@ -1,25 +1,10 @@
 #include "ps2_kb.h"
+#include "../io.h"
+#include "vga.h"
+
+#define D_PS2_KB_PORT 0x60
 
 static char D_PS2_KB_buffer = NULL;
-
-// extern uint8
-// K_IO_inb(uint16 port);
-
-// extern void
-// K_panic(int code, string msg);
-
-// extern void
-// D_VGA_print_str(uint8 line,
-//                 uint8 column,
-//                 char* str,
-//                 uint8 fore_color,
-//                 uint8 back_color);
-// extern void
-// D_VGA_print_chr(uint8 line,
-//                 uint8 column,
-//                 char c,
-//                 uint8 fore_color,
-//                 uint8 back_color);
 
 void
 D_PS2_KB_handler(struct regs r)

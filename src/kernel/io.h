@@ -3,10 +3,10 @@
 
 #include "types.h"
 
-void
+extern void
 K_IO_outb(uint16 port, uint8 val);
 
-uint8
+extern uint8
 K_IO_inb(uint16 port);
 
 #endif // K_IO_H

@@ -3,3 +3,4 @@
 *.bin
 peda*
 .gdb_history
+*.log
