@@ -8,6 +8,7 @@ global _start
 
 %include "multiboot.asm"
 %include "gdt.asm"
+%include "tss.asm"
 %include "idt.asm"
 %include "stack.asm"
 

@@ -1,4 +1,5 @@
 #include "idt.h"
+#include "mem.h"
 
 #define IDT_SIZE 256
 #define PIC_MASTER_CMD 0x0020
@@ -179,7 +180,7 @@ K_IDT_install()
 
   idtr.limit = (sizeof(struct idt_entry) * IDT_SIZE) - 1;
   idtr.base = (unsigned)&idt;
-  K_memset((void*)&idt, 0, sizeof(struct idt_entry) * IDT_SIZE);
+  K_MEM_set((void*)&idt, 0, sizeof(struct idt_entry) * IDT_SIZE);
 
   // remmaping 8259 PIC
   K_IO_outb(PIC_MASTER_CMD, 0x11);

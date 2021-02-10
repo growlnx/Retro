@@ -1,5 +1,4 @@
-#ifndef __K_TYPES_H
-#define __K_TYPES_H
+#pragma once
 
 typedef unsigned char uchar;
 typedef unsigned char uint8;
@@ -11,14 +10,24 @@ typedef char* string;
 struct regs
 {
   uint32 ds;
-  uint32 edi, esi, ebp, esp, ebx, edx, ecx, eax;
-  uint32 interrupt, err_code;
-  uint32 eip, cs, eflags, useresp, ss;
+  uint32 edi;
+  uint32 esi; 
+  uint32 ebp;
+  uint32 esp;
+  uint32 ebx;
+  uint32 edx;
+  uint32 ecx;
+  uint32 eax;
+  uint32 interrupt;
+  uint32 err_code;
+  uint32 eip;
+  uint32 cs;
+  uint32 eflags;
+  uint32 useresp;
+  uint32 ss;
 };
 
 #define NULL 0
 
 #define TRUE 1
 #define FALSE 0
-
-#endif // __K_TYPES_H

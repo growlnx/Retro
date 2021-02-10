@@ -1,5 +1,4 @@
-#ifndef K_GDT_H
-#define K_GDT_H
+#pragma once
 
 #include "types.h"
 
@@ -24,4 +23,9 @@ extern struct gdt_descriptor gdtr;
 extern void
 K_GDT_install();
 
-#endif // K_GDT_H
+extern void
+K_GDT_set_gate(int i,
+               unsigned long base,
+               unsigned long limit,
+               unsigned char access,
+               unsigned char granularity);

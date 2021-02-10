@@ -1,5 +1,4 @@
-#ifndef K_H
-#define K_H
+#pragma once
 
 #include "types.h"
 
@@ -11,5 +10,3 @@ K_memset(void* dest, int val, int len);
 
 extern void
 K_panic(int code, string msg);
-
-#endif // K_H

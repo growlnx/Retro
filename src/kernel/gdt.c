@@ -1,6 +1,8 @@
 #include "gdt.h"
+#include "tss.h"
+#include "mem.h"
 
-#define GDT_SIZE 3
+#define GDT_SIZE 6
 
 static struct gdt_entry gdt[GDT_SIZE];
 struct gdt_descriptor gdtr;
@@ -9,7 +11,7 @@ extern void
 // import from bootloader
 K_GDT_update();
 
-static void
+void
 K_GDT_set_gate(int i,
                unsigned long base,
                unsigned long limit,
@@ -34,9 +36,16 @@ K_GDT_install()
   K_GDT_set_gate(1, 0, 0xFFFFFFFF, 0x9A, 0xCF);
   // kerneland data segment
   K_GDT_set_gate(2, 0, 0xFFFFFFFF, 0x92, 0xCF);
+  // userland code segment
+  K_GDT_set_gate(3, 0, 0xFFFFFFFF, 0xFA, 0xCF);
+  // userland data segment
+  K_GDT_set_gate(4, 0, 0xFFFFFFFF, 0xF2, 0xCF);
 
-  gdtr.limit = (sizeof(struct gdt_entry) * 3) - 1;
+  K_TSS_install(5, 0x10, 0x00);
+
+  gdtr.limit = (sizeof(struct gdt_entry) * GDT_SIZE) - 1;
   gdtr.base = (unsigned int)&gdt;
 
   K_GDT_update();
+  K_TSS_update();
 }

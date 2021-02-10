@@ -1,5 +1,4 @@
-#ifndef K_IDT_H
-#define K_IDT_H
+#pragma once
 
 #include "driver/ps2_kb.h"
 #include "io.h"
@@ -22,5 +21,3 @@ struct idt_descriptor
 } __attribute__((packed));
 
 extern struct idt_descriptor idtr;
-
-#endif // K_IDT_H

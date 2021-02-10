@@ -1,5 +1,5 @@
 CC		:= gcc
-CFLAGS	:= -c -std=gnu99 -ffreestanding -O0 -m32 -g
+CFLAGS	:= -c -std=gnu99 -ffreestanding -fomit-frame-pointer -O0 -m32 -g
 OBJECTS	:= $(patsubst %.c,%.o,$(wildcard *.c))
 
 all: $(OBJECTS)
